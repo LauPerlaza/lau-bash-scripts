@@ -1,0 +1,8 @@
+#! /bin/bash
+#escript para crear un inventario del networking de la consola del cliente
+aws ec2 describe-instances
+#describe las instancia
+aws ec2 describe-instances >> inventario-aws-$(date '+%Y-%m-%d').json | sudo tee -a /documents/inventario.js
+#luego de describir las instancias, crea un archivo y lo guarda con >>, sudo tee -a es para sobreescribir el documento cada vez que se corra el script
+aws s3 sync . s3://bucket-data-lab/ --delete
+#se corre el script ¿pregunta aqui? y se actializa el archivo y el bucket eliminando los archivos viejos
